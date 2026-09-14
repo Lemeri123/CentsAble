@@ -1,11 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+function projectUrl(raw: string) {
+  return raw.trim().replace(/\/+$/, '').replace(/\/rest\/v1$/i, '');
+}
+
+const supabaseUrl = projectUrl(import.meta.env.VITE_SUPABASE_URL as string);
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export type Category = 'food' | 'transport' | 'entertainment' | 'education' | 'shopping' | 'health' | 'snacks' | 'other';
+export type Category = string;
+
+export interface BudgetCategory {
+  id: string;
+  name: string;
+  amount: number;
+}
 
 export interface StudentProfile {
   id: string;
@@ -18,6 +28,7 @@ export interface StudentProfile {
   monthly_budget_entertainment: number;
   monthly_budget_education: number;
   monthly_budget_other: number;
+  budget_categories?: BudgetCategory[] | null;
   currency: string;
   onboarded: boolean;
   created_at: string;

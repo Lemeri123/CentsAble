@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS student_profiles (
   monthly_budget_entertainment numeric(10,2) DEFAULT 0,
   monthly_budget_education numeric(10,2) DEFAULT 0,
   monthly_budget_other numeric(10,2) DEFAULT 0,
+  budget_categories jsonb DEFAULT NULL,
   currency text DEFAULT 'USD',
   onboarded boolean DEFAULT false,
   created_at timestamptz DEFAULT now(),

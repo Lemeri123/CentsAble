@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase, StudentProfile, SavingsGoal, Achievement } from '../lib/supabase';
 import { unlockAchievement } from '../lib/achievements';
 import { ACHIEVEMENT_DEFS } from '../lib/achievements';
-import { formatMoney, amountStep, currencyCode } from '../lib/currency';
+import { formatMoney, amountFromInput, currencyCode } from '../lib/currency';
+import MoneyInput from '../components/MoneyInput';
 import { Plus, X, CheckCircle, PlusCircle, MinusCircle } from 'lucide-react';
 
 const GOAL_EMOJIS = ['🎯', '✈️', '💻', '📱', '🎒', '🎓', '🏋️', '🎮', '🏠', '🚗', '💰', '📸'];
@@ -43,7 +44,7 @@ export default function SavingsGoals({ profile }: Props) {
     await supabase.from('savings_goals').insert({
       user_id: profile.user_id,
       title: title.trim(),
-      target_amount: parseFloat(target),
+      target_amount: amountFromInput(target),
       current_amount: 0,
       deadline: deadline || null,
       emoji,
@@ -57,7 +58,7 @@ export default function SavingsGoals({ profile }: Props) {
   }
 
   async function handleDeposit(goalId: string, add: boolean) {
-    const amt = parseFloat(depositAmounts[goalId] || '0');
+    const amt = amountFromInput(depositAmounts[goalId] || '0');
     if (!amt || amt <= 0) return;
 
     const goal = goals.find(g => g.id === goalId);
@@ -172,13 +173,11 @@ export default function SavingsGoals({ profile }: Props) {
                   </div>
 
                   <div className="flex gap-2">
-                    <input
-                      type="number"
+                    <MoneyInput
                       value={depositAmounts[goal.id] || ''}
-                      onChange={e => setDepositAmounts(prev => ({ ...prev, [goal.id]: e.target.value }))}
+                      onChange={raw => setDepositAmounts(prev => ({ ...prev, [goal.id]: raw }))}
+                      currency={profile.currency}
                       placeholder="Amount"
-                      min="0"
-                      step={amountStep(profile.currency)}
                       className="flex-1 bg-gray-800 border border-gray-700 text-white rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
                     />
                     <button
@@ -273,13 +272,11 @@ export default function SavingsGoals({ profile }: Props) {
               </div>
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-1.5">Target Amount ({currencyCode(profile.currency)})</label>
-                <input
-                  type="number"
+                <MoneyInput
                   value={target}
-                  onChange={e => setTarget(e.target.value)}
+                  onChange={setTarget}
+                  currency={profile.currency}
                   placeholder="500"
-                  min="1"
-                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
                 />
               </div>
               <div>

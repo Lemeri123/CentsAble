@@ -1,5 +1,6 @@
 import { Transaction, StudentProfile } from './supabase';
 import { formatMoney, currencyCode } from './currency';
+import { getBudgetCategories } from './budgets';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
@@ -34,19 +35,14 @@ function buildProfile(profile: StudentProfile) {
     name: profile.name,
     monthly_income: profile.monthly_allowance + profile.monthly_side_income,
     currency: currencyCode(profile.currency),
-    budgets: {
-      food: profile.monthly_budget_food,
-      transport: profile.monthly_budget_transport,
-      entertainment: profile.monthly_budget_entertainment,
-      education: profile.monthly_budget_education,
-      other: profile.monthly_budget_other,
-    },
+    budgets: Object.fromEntries(getBudgetCategories(profile).map(b => [b.name, b.amount])),
   };
 }
 
-export async function categorizeTransaction(description: string, amount: number) {
+export async function categorizeTransaction(description: string, amount: number, allowed?: string[]) {
+  const options = (allowed && allowed.length ? allowed : ['food', 'transport', 'entertainment', 'education', 'shopping', 'health', 'snacks', 'other']).join(', ');
   const system = `You are a financial categorization assistant for students.
-Categorize transactions into one of: food, transport, entertainment, education, shopping, health, snacks, other.
+Categorize transactions into one of: ${options}.
 Also determine if it's an "unnecessary" purchase.
 Respond in JSON only: {"category": "...", "is_unnecessary": true/false}`;
 

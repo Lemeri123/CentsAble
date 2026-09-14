@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { StudentProfile } from '../lib/supabase';
 import { canIAfford, getBudgetAdvice } from '../lib/aiCoach';
-import { formatMoney, currencyCode } from '../lib/currency';
+import { formatMoney, amountFromInput } from '../lib/currency';
+import { getBudgetCategories } from '../lib/budgets';
+import MoneyInput from '../components/MoneyInput';
 import { Send, DollarSign, MessageSquare, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Message {
@@ -67,7 +69,7 @@ export default function AICoach({ profile }: Props) {
     setCheckingAfford(true);
     setAffordResult('');
     try {
-      const result = await canIAfford({ name: itemName.trim(), cost: parseFloat(itemCost) }, profile);
+      const result = await canIAfford({ name: itemName.trim(), cost: amountFromInput(itemCost) }, profile);
       setAffordResult(result.message || 'Unable to determine affordability.');
     } catch {
       setAffordResult('Could not check affordability. Try again.');
@@ -76,6 +78,7 @@ export default function AICoach({ profile }: Props) {
   }
 
   const totalIncome = profile.monthly_allowance + profile.monthly_side_income;
+  const topBudgets = getBudgetCategories(profile).filter(b => b.amount > 0).slice(0, 2);
 
   return (
     <div className="flex flex-col h-full space-y-4 pb-20 md:pb-4">
@@ -90,18 +93,12 @@ export default function AICoach({ profile }: Props) {
           <div className="text-gray-500 text-xs mb-1">Income</div>
           <div className="text-emerald-400 font-bold text-sm">{formatMoney(totalIncome, profile.currency)}/mo</div>
         </div>
-        {profile.monthly_budget_food > 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-3 text-center">
-            <div className="text-gray-500 text-xs mb-1">Food Budget</div>
-            <div className="text-white font-bold text-sm">{formatMoney(profile.monthly_budget_food, profile.currency)}</div>
+        {topBudgets.map(b => (
+          <div key={b.id} className="bg-gray-900 border border-gray-800 rounded-xl p-3 text-center">
+            <div className="text-gray-500 text-xs mb-1">{b.name}</div>
+            <div className="text-white font-bold text-sm">{formatMoney(b.amount, profile.currency)}</div>
           </div>
-        )}
-        {profile.monthly_budget_entertainment > 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-3 text-center">
-            <div className="text-gray-500 text-xs mb-1">Entertainment</div>
-            <div className="text-white font-bold text-sm">{formatMoney(profile.monthly_budget_entertainment, profile.currency)}</div>
-          </div>
-        )}
+        ))}
       </div>
 
       {/* Can I Afford This? */}
@@ -126,13 +123,12 @@ export default function AICoach({ profile }: Props) {
                 placeholder="What do you want to buy?"
                 className="flex-1 bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
               />
-              <input
-                type="number"
+              <MoneyInput
                 value={itemCost}
-                onChange={e => setItemCost(e.target.value)}
-                placeholder={currencyCode(profile.currency) === 'UGX' ? '0' : '0'}
-                min="0"
-                className="w-24 bg-gray-800 border border-gray-700 text-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
+                onChange={setItemCost}
+                currency={profile.currency}
+                placeholder="0"
+                className="w-32 bg-gray-800 border border-gray-700 text-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
               />
             </div>
             <button

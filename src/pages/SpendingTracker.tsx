@@ -1,20 +1,11 @@
 import { useEffect, useState } from 'react';
-import { supabase, StudentProfile, Transaction, Category } from '../lib/supabase';
+import { supabase, StudentProfile, Transaction } from '../lib/supabase';
 import { categorizeTransaction, roastSpending } from '../lib/aiCoach';
 import { unlockAchievement, updateStreak } from '../lib/achievements';
-import { formatMoney, amountStep, currencyCode } from '../lib/currency';
+import { formatMoney, amountFromInput, currencyCode } from '../lib/currency';
+import { getSpendingCategories } from '../lib/budgets';
+import MoneyInput from '../components/MoneyInput';
 import { Plus, Trash2, Sparkles, Flame, X } from 'lucide-react';
-
-const CATEGORIES: { id: Category; label: string; emoji: string; color: string }[] = [
-  { id: 'food', label: 'Food', emoji: '🍕', color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-  { id: 'transport', label: 'Transport', emoji: '🚌', color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
-  { id: 'entertainment', label: 'Entertainment', emoji: '🎮', color: 'bg-pink-500/20 text-pink-300 border-pink-500/30' },
-  { id: 'education', label: 'Education', emoji: '📚', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
-  { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: 'bg-violet-500/20 text-violet-300 border-violet-500/30' },
-  { id: 'health', label: 'Health', emoji: '💊', color: 'bg-red-500/20 text-red-300 border-red-500/30' },
-  { id: 'snacks', label: 'Snacks', emoji: '🧋', color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
-  { id: 'other', label: 'Other', emoji: '📦', color: 'bg-gray-500/20 text-gray-300 border-gray-500/30' },
-];
 
 interface Props {
   profile: StudentProfile;
@@ -25,14 +16,15 @@ export default function SpendingTracker({ profile }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState<Category>('other');
+  const [category, setCategory] = useState('other');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [aiCategorizing, setAiCategorizing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [roast, setRoast] = useState('');
   const [loadingRoast, setLoadingRoast] = useState(false);
   const [toast, setToast] = useState('');
-  const [filterCat, setFilterCat] = useState<Category | 'all'>('all');
+  const [filterCat, setFilterCat] = useState<string>('all');
+  const categories = getSpendingCategories(profile);
 
   useEffect(() => { loadTransactions(); }, []);
 
@@ -50,8 +42,8 @@ export default function SpendingTracker({ profile }: Props) {
     if (!description || !amount) return;
     setAiCategorizing(true);
     try {
-      const result = await categorizeTransaction(description, parseFloat(amount));
-      setCategory(result.category as Category || 'other');
+      const result = await categorizeTransaction(description, amountFromInput(amount), categories.map(c => c.id));
+      setCategory(result.category || 'other');
       showToast('AI categorized your transaction!');
     } catch {
       // fallback silently
@@ -61,13 +53,13 @@ export default function SpendingTracker({ profile }: Props) {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    if (!description.trim() || !amount) return;
+    if (!description.trim() || !amountFromInput(amount)) return;
     setSaving(true);
 
     const { data } = await supabase.from('transactions').insert({
       user_id: profile.user_id,
       description: description.trim(),
-      amount: parseFloat(amount),
+      amount: amountFromInput(amount),
       category,
       transaction_date: date,
     }).select().single();
@@ -123,7 +115,7 @@ export default function SpendingTracker({ profile }: Props) {
     return transactions.filter(t => t.transaction_date >= start).reduce((s, t) => s + t.amount, 0);
   })();
 
-  const catDef = (cat: string) => CATEGORIES.find(c => c.id === cat);
+  const catDef = (cat: string) => categories.find(c => c.id === cat);
 
   return (
     <div className="space-y-5 pb-24 md:pb-6">
@@ -203,20 +195,17 @@ export default function SpendingTracker({ profile }: Props) {
               </div>
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-1.5">Amount ({currencyCode(profile.currency)})</label>
-                <input
-                  type="number"
+                <MoneyInput
                   value={amount}
-                  onChange={e => setAmount(e.target.value)}
+                  onChange={setAmount}
+                  currency={profile.currency}
                   placeholder={currencyCode(profile.currency) === 'UGX' ? '0' : '0.00'}
-                  min="0"
-                  step={amountStep(profile.currency)}
-                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
                 />
               </div>
               <div>
                 <label className="block text-gray-300 text-sm font-medium mb-1.5">Category</label>
                 <div className="grid grid-cols-4 gap-2">
-                  {CATEGORIES.map(cat => (
+                  {categories.map(cat => (
                     <button
                       key={cat.id}
                       type="button"
@@ -258,7 +247,7 @@ export default function SpendingTracker({ profile }: Props) {
         >
           All
         </button>
-        {CATEGORIES.map(cat => (
+        {categories.map(cat => (
           <button
             key={cat.id}
             onClick={() => setFilterCat(cat.id)}

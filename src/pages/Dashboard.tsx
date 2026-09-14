@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase, StudentProfile, Transaction, SavingsGoal, Streak } from '../lib/supabase';
 import { analyzeSpending } from '../lib/aiCoach';
 import { formatMoney } from '../lib/currency';
+import { getBudgetCategories } from '../lib/budgets';
 import { TrendingDown, TrendingUp, Target, Zap, Sparkles, RefreshCw } from 'lucide-react';
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -69,12 +70,7 @@ export default function Dashboard({ profile, onNavigate }: Props) {
   }
   const sortedCategories = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
 
-  const budgetCategories = [
-    { key: 'food', label: 'Food', budget: profile.monthly_budget_food },
-    { key: 'transport', label: 'Transport', budget: profile.monthly_budget_transport },
-    { key: 'entertainment', label: 'Entertainment', budget: profile.monthly_budget_entertainment },
-    { key: 'education', label: 'Education', budget: profile.monthly_budget_education },
-  ].filter(c => c.budget > 0);
+  const budgetCategories = getBudgetCategories(profile).filter(c => c.amount > 0);
 
   return (
     <div className="space-y-6 pb-20 md:pb-6">
@@ -138,14 +134,14 @@ export default function Dashboard({ profile, onNavigate }: Props) {
             </div>
           ) : (
             <div className="space-y-4">
-              {budgetCategories.map(({ key, label, budget }) => {
-                const spent = categoryTotals[key] || 0;
+              {budgetCategories.map(({ id, name, amount: budget }) => {
+                const spent = categoryTotals[id] || 0;
                 const pct = Math.min((spent / budget) * 100, 100);
                 const over = spent > budget;
                 return (
-                  <div key={key}>
+                  <div key={id}>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-300">{label}</span>
+                      <span className="text-gray-300">{name}</span>
                       <span className={over ? 'text-red-400 font-medium' : 'text-gray-400'}>
                         {formatMoney(spent, profile.currency)} / {formatMoney(budget, profile.currency)}
                       </span>

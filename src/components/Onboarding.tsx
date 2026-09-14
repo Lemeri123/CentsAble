@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { AppCurrency, formatMoney } from '../lib/currency';
+import { AppCurrency, amountFromInput, formatMoney } from '../lib/currency';
+import { DEFAULT_BUDGET_CATEGORIES } from '../lib/budgets';
 import CurrencyToggle from './CurrencyToggle';
+import MoneyInput from './MoneyInput';
 import { TrendingUp } from 'lucide-react';
 
 interface Props {
@@ -20,7 +22,7 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
     e.preventDefault();
     setSaving(true);
     setError(null);
-    const monthlyIncome = parseFloat(income) || 0;
+    const monthlyIncome = amountFromInput(income);
     const { error: insertError } = await supabase.from('student_profiles').upsert({
       user_id: userId,
       name: displayName?.trim() || '',
@@ -31,6 +33,7 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
       monthly_budget_entertainment: 0,
       monthly_budget_education: 0,
       monthly_budget_other: 0,
+      budget_categories: DEFAULT_BUDGET_CATEGORIES.map(item => ({ ...item, amount: 0 })),
       currency,
       onboarded: true,
     }, { onConflict: 'user_id' });
@@ -42,7 +45,7 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
     onComplete();
   }
 
-  const amount = parseFloat(income) || 0;
+  const amount = amountFromInput(income);
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
@@ -70,13 +73,11 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
               <label className="block text-gray-300 text-sm font-medium mb-1.5">
                 Monthly income ({currency})
               </label>
-              <input
-                type="number"
+              <MoneyInput
                 value={income}
-                onChange={e => setIncome(e.target.value)}
-                placeholder={currency === 'UGX' ? '500000' : '500'}
-                min="0"
-                step={currency === 'UGX' ? '1' : '0.01'}
+                onChange={setIncome}
+                currency={currency}
+                placeholder={currency === 'UGX' ? '500,000' : '500'}
                 required
                 className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
               />
