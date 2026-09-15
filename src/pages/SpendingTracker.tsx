@@ -118,31 +118,31 @@ export default function SpendingTracker({ profile }: Props) {
   const catDef = (cat: string) => categories.find(c => c.id === cat);
 
   return (
-    <div className="space-y-5 pb-24 md:pb-6">
+    <div className="space-y-4 pb-6 min-w-0">
       {/* Toast */}
       {toast && (
-        <div className="fixed top-4 right-4 z-50 bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-lg animate-in">
+        <div className="fixed top-16 right-4 z-50 bg-snow text-ink px-4 py-2.5 rounded-xl text-sm font-medium shadow-lg animate-in max-w-[calc(100vw-2rem)]">
           {toast}
         </div>
       )}
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-white text-2xl font-bold">Spending Tracker</h1>
-          <p className="text-gray-400 text-sm mt-0.5">Spent {formatMoney(totalThisMonth, profile.currency)} this month</p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between min-w-0">
+        <div className="min-w-0">
+          <h1 className="text-snow text-xl sm:text-2xl font-bold">Spending Tracker</h1>
+          <p className="text-mist text-sm mt-0.5 break-words">Spent {formatMoney(totalThisMonth, profile.currency)} this month</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
           <button
             onClick={fetchRoast}
             disabled={loadingRoast || !transactions.length}
-            className="flex items-center gap-1.5 bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400 px-3 py-2 rounded-xl text-sm font-medium disabled:opacity-40 transition-all"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-dusk hover:bg-steel/50 border border-steel text-snow px-3 py-2 rounded-xl text-sm font-medium disabled:opacity-40 transition-all"
           >
             <Flame size={15} />
             {loadingRoast ? 'Roasting...' : 'Roast Me'}
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-white px-3 py-2 rounded-xl text-sm font-semibold transition-all"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-glow hover:bg-glow/80 text-ink px-3 py-2 rounded-xl text-sm font-semibold transition-all"
           >
             <Plus size={15} />
             Add
@@ -152,13 +152,13 @@ export default function SpendingTracker({ profile }: Props) {
 
       {/* AI Roast */}
       {roast && (
-        <div className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-4 relative">
-          <button onClick={() => setRoast('')} className="absolute top-3 right-3 text-orange-400/60 hover:text-orange-400"><X size={14} /></button>
+        <div className="bg-dusk border border-steel rounded-2xl p-4 relative">
+          <button onClick={() => setRoast('')} className="absolute top-3 right-3 text-snow/60 hover:text-snow"><X size={14} /></button>
           <div className="flex items-start gap-3">
             <span className="text-2xl">🤣</span>
             <div>
-              <div className="text-orange-400 font-semibold text-sm mb-1">Your AI Roast</div>
-              <p className="text-orange-200 text-sm leading-relaxed">{roast}</p>
+              <div className="text-snow font-semibold text-sm mb-1">Your AI Roast</div>
+              <p className="text-snow text-sm leading-relaxed">{roast}</p>
             </div>
           </div>
         </div>
@@ -166,35 +166,35 @@ export default function SpendingTracker({ profile }: Props) {
 
       {/* Add transaction modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/60 z-40 flex items-end md:items-center justify-center p-4" onClick={() => setShowForm(false)}>
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-ink/80 z-40 flex items-end md:items-center justify-center p-4 pb-24 md:pb-4" onClick={() => setShowForm(false)}>
+          <div className="bg-deep border border-dusk rounded-2xl p-5 w-full max-w-md max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-semibold text-lg">Add Transaction</h2>
-              <button onClick={() => setShowForm(false)} className="text-gray-500 hover:text-gray-300"><X size={18} /></button>
+              <h2 className="text-snow font-semibold text-lg">Add Transaction</h2>
+              <button onClick={() => setShowForm(false)} className="text-mist hover:text-snow"><X size={18} /></button>
             </div>
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-1.5">Description</label>
+                <label className="block text-snow text-sm font-medium mb-1.5">Description</label>
                 <div className="flex gap-2">
                   <input
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     placeholder="e.g. Bubble tea with friends"
-                    className="flex-1 bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
+                    className="flex-1 bg-dusk border border-steel text-snow rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-steel focus:border-transparent placeholder-mist"
                   />
                   <button
                     type="button"
                     onClick={handleAiCategorize}
                     disabled={aiCategorizing || !description || !amount}
                     title="AI Categorize"
-                    className="bg-gray-800 hover:bg-gray-700 border border-gray-700 text-emerald-400 rounded-xl px-3 disabled:opacity-40 transition-all"
+                    className="bg-dusk hover:bg-steel border border-steel text-snow rounded-xl px-3 disabled:opacity-40 transition-all"
                   >
                     <Sparkles size={16} className={aiCategorizing ? 'animate-pulse' : ''} />
                   </button>
                 </div>
               </div>
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-1.5">Amount ({currencyCode(profile.currency)})</label>
+                <label className="block text-snow text-sm font-medium mb-1.5">Amount ({currencyCode(profile.currency)})</label>
                 <MoneyInput
                   value={amount}
                   onChange={setAmount}
@@ -203,14 +203,14 @@ export default function SpendingTracker({ profile }: Props) {
                 />
               </div>
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-1.5">Category</label>
-                <div className="grid grid-cols-4 gap-2">
+                <label className="block text-snow text-sm font-medium mb-1.5">Category</label>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {categories.map(cat => (
                     <button
                       key={cat.id}
                       type="button"
                       onClick={() => setCategory(cat.id)}
-                      className={`flex flex-col items-center gap-1 py-2 rounded-xl border text-xs font-medium transition-all ${category === cat.id ? cat.color : 'bg-gray-800 text-gray-500 border-gray-700 hover:border-gray-600'}`}
+                      className={`flex flex-col items-center gap-1 py-2 rounded-xl border text-xs font-medium transition-all ${category === cat.id ? cat.color : 'bg-dusk text-mist border-steel hover:border-steel'}`}
                     >
                       <span>{cat.emoji}</span>
                       <span>{cat.label}</span>
@@ -219,18 +219,18 @@ export default function SpendingTracker({ profile }: Props) {
                 </div>
               </div>
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-1.5">Date</label>
+                <label className="block text-snow text-sm font-medium mb-1.5">Date</label>
                 <input
                   type="date"
                   value={date}
                   onChange={e => setDate(e.target.value)}
-                  className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full bg-dusk border border-steel text-snow rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-steel focus:border-transparent"
                 />
               </div>
               <button
                 type="submit"
                 disabled={saving || !description.trim() || !amount}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-white font-semibold py-3 rounded-xl transition-all"
+                className="w-full bg-glow hover:bg-glow/80 disabled:opacity-40 text-ink font-semibold py-3 rounded-xl transition-all"
               >
                 {saving ? 'Saving...' : 'Save Transaction'}
               </button>
@@ -240,10 +240,11 @@ export default function SpendingTracker({ profile }: Props) {
       )}
 
       {/* Category filter */}
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain scrollbar-hide -mx-4 px-4">
+        <div className="flex gap-2 w-max">
         <button
           onClick={() => setFilterCat('all')}
-          className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${filterCat === 'all' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-gray-800 text-gray-500 border-gray-700'}`}
+          className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${filterCat === 'all' ? 'bg-snow/10 text-snow border-steel' : 'bg-dusk text-mist border-steel'}`}
         >
           All
         </button>
@@ -251,42 +252,43 @@ export default function SpendingTracker({ profile }: Props) {
           <button
             key={cat.id}
             onClick={() => setFilterCat(cat.id)}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${filterCat === cat.id ? cat.color : 'bg-gray-800 text-gray-500 border-gray-700'}`}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${filterCat === cat.id ? cat.color : 'bg-dusk text-mist border-steel'}`}
           >
             {cat.emoji} {cat.label}
           </button>
         ))}
+        </div>
       </div>
 
       {/* Transactions list */}
       <div className="space-y-2">
         {filtered.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-10 text-center">
-            <p className="text-gray-500 text-sm">No transactions yet. Add your first one!</p>
+          <div className="bg-deep border border-dusk rounded-2xl p-10 text-center">
+            <p className="text-mist text-sm">No transactions yet. Add your first one!</p>
           </div>
         ) : (
           filtered.map(tx => {
             const cat = catDef(tx.category);
             return (
-              <div key={tx.id} className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gray-800 flex items-center justify-center text-lg flex-shrink-0">
+              <div key={tx.id} className="bg-deep border border-dusk rounded-xl px-3 py-3 flex items-start gap-2.5 min-w-0">
+                <div className="w-9 h-9 rounded-xl bg-dusk flex items-center justify-center text-lg flex-shrink-0">
                   {cat?.emoji || '📦'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-white text-sm font-medium truncate">{tx.description}</span>
-                    {tx.is_unnecessary && <span className="text-xs bg-red-500/15 text-red-400 border border-red-500/20 px-1.5 py-0.5 rounded-md flex-shrink-0">wasteful</span>}
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-snow text-sm font-medium break-words">{tx.description}</span>
+                    <span className="text-snow font-semibold text-sm whitespace-nowrap flex-shrink-0">
+                      -{formatMoney(tx.amount, profile.currency)}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className={`text-xs px-1.5 py-0.5 rounded-md border capitalize ${cat?.color || 'bg-gray-700 text-gray-300 border-gray-600'}`}>{tx.category}</span>
-                    <span className="text-gray-600 text-xs">{new Date(tx.transaction_date + 'T00:00:00').toLocaleDateString()}</span>
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                    {tx.is_unnecessary && <span className="text-xs bg-steel/15 text-mist border border-steel px-1.5 py-0.5 rounded-md">wasteful</span>}
+                    <span className={`text-xs px-1.5 py-0.5 rounded-md border capitalize ${cat?.color || 'bg-steel text-snow border-steel'}`}>{cat?.label || tx.category}</span>
+                    <span className="text-steel text-xs">{new Date(tx.transaction_date + 'T00:00:00').toLocaleDateString()}</span>
+                    <button onClick={() => handleDelete(tx.id)} className="ml-auto text-steel hover:text-snow transition-colors p-1">
+                      <Trash2 size={14} />
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className="text-white font-semibold">-{formatMoney(tx.amount, profile.currency)}</span>
-                  <button onClick={() => handleDelete(tx.id)} className="text-gray-600 hover:text-red-400 transition-colors">
-                    <Trash2 size={14} />
-                  </button>
                 </div>
               </div>
             );

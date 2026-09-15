@@ -48,29 +48,29 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
   const amount = amountFromInput(income);
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-ink flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
         <div className="flex items-center gap-2 mb-8 justify-center">
-          <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-            <TrendingUp size={16} className="text-white" />
+          <div className="w-8 h-8 bg-glow rounded-lg flex items-center justify-center">
+            <TrendingUp size={16} className="text-ink" />
           </div>
-          <span className="text-white font-bold text-lg">CentsAble</span>
+          <span className="text-snow font-semibold text-lg tracking-tight">Pace Money</span>
         </div>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+        <div className="bg-deep border border-dusk rounded-2xl p-8">
           <form onSubmit={handleFinish} className="space-y-5">
             <div>
-              <h2 className="text-white text-2xl font-bold mb-1">Monthly income</h2>
-              <p className="text-gray-400 text-sm">How much do you get each month? You can change currency anytime.</p>
+              <h2 className="text-snow text-2xl font-bold mb-1">Monthly income</h2>
+              <p className="text-mist text-sm">How much do you get each month? You can change currency anytime.</p>
             </div>
 
             <div>
-              <label className="block text-gray-300 text-sm font-medium mb-1.5">Currency</label>
+              <label className="block text-snow text-sm font-medium mb-1.5">Currency</label>
               <CurrencyToggle value={currency} onChange={setCurrency} />
             </div>
 
             <div>
-              <label className="block text-gray-300 text-sm font-medium mb-1.5">
+              <label className="block text-snow text-sm font-medium mb-1.5">
                 Monthly income ({currency})
               </label>
               <MoneyInput
@@ -79,18 +79,18 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
                 currency={currency}
                 placeholder={currency === 'UGX' ? '500,000' : '500'}
                 required
-                className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500"
+                className="w-full bg-dusk border border-steel text-snow rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-steel focus:border-transparent placeholder-mist"
               />
             </div>
 
             {amount > 0 && (
-              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-3 text-emerald-400 text-sm font-medium">
+              <div className="bg-snow/10 border border-steel rounded-xl px-4 py-3 text-snow text-sm font-medium">
                 {formatMoney(amount, currency)} / month
               </div>
             )}
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-red-400 text-sm">
+              <div className="bg-steel/10 border border-steel rounded-xl px-4 py-3 text-mist text-sm">
                 {error}
               </div>
             )}
@@ -98,7 +98,7 @@ export default function Onboarding({ userId, displayName, onComplete }: Props) {
             <button
               type="submit"
               disabled={saving || !income}
-              className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-white font-semibold py-3 rounded-xl transition-all text-sm"
+              className="w-full bg-glow hover:bg-glow/80 disabled:opacity-40 text-ink font-semibold py-3 rounded-xl transition-all text-sm"
             >
               {saving ? 'Saving...' : "Let's Go!"}
             </button>

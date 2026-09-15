@@ -46,22 +46,22 @@ export function slugifyCategory(name: string, existingIds: string[]): string {
 }
 
 export const SPENDING_CATEGORY_STYLES: { id: string; label: string; emoji: string; color: string }[] = [
-  { id: 'food', label: 'Food', emoji: '🍕', color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-  { id: 'transport', label: 'Transport', emoji: '🚌', color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
-  { id: 'entertainment', label: 'Entertainment', emoji: '🎮', color: 'bg-pink-500/20 text-pink-300 border-pink-500/30' },
-  { id: 'education', label: 'Education', emoji: '📚', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
-  { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: 'bg-violet-500/20 text-violet-300 border-violet-500/30' },
-  { id: 'health', label: 'Health', emoji: '💊', color: 'bg-red-500/20 text-red-300 border-red-500/30' },
-  { id: 'snacks', label: 'Snacks', emoji: '🧋', color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
-  { id: 'other', label: 'Other', emoji: '📦', color: 'bg-gray-500/20 text-gray-300 border-gray-500/30' },
+  { id: 'food', label: 'Food', emoji: '🍕', color: 'bg-dusk text-snow border-steel' },
+  { id: 'transport', label: 'Transport', emoji: '🚌', color: 'bg-deep text-mist border-steel' },
+  { id: 'entertainment', label: 'Entertainment', emoji: '🎮', color: 'bg-steel/40 text-snow border-steel' },
+  { id: 'education', label: 'Education', emoji: '📚', color: 'bg-snow/10 text-snow border-mist' },
+  { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: 'bg-dusk text-mist border-steel' },
+  { id: 'health', label: 'Health', emoji: '💊', color: 'bg-steel/30 text-mist border-steel' },
+  { id: 'snacks', label: 'Snacks', emoji: '🧋', color: 'bg-deep text-snow border-mist' },
+  { id: 'other', label: 'Other', emoji: '📦', color: 'bg-dusk text-mist border-steel' },
 ];
 
 const CUSTOM_STYLES = [
-  { emoji: '🏠', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30' },
-  { emoji: '💡', color: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' },
-  { emoji: '📱', color: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' },
-  { emoji: '👕', color: 'bg-rose-500/20 text-rose-300 border-rose-500/30' },
-  { emoji: '🎁', color: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/30' },
+  { emoji: '🏠', color: 'bg-dusk text-snow border-steel' },
+  { emoji: '💡', color: 'bg-steel/40 text-snow border-steel' },
+  { emoji: '📱', color: 'bg-deep text-mist border-mist' },
+  { emoji: '👕', color: 'bg-snow/10 text-snow border-steel' },
+  { emoji: '🎁', color: 'bg-dusk text-mist border-steel' },
 ];
 
 export function getSpendingCategories(profile: StudentProfile) {

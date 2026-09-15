@@ -17,7 +17,7 @@ interface Props {
 }
 
 const DEFAULT_CLASS =
-  'w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-500';
+  'w-full bg-dusk border border-steel text-snow rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-steel focus:border-transparent placeholder-mist';
 
 export default function MoneyInput({ value, onChange, currency, className, placeholder, required }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,4 +1,4 @@
-# CentsAble 💸
+# Pace Money 💸
 
 > An AI-powered financial coach built for students. Track spending, roast your habits, and actually save money.
 

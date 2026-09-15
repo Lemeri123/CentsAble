@@ -5,16 +5,6 @@ import { formatMoney } from '../lib/currency';
 import { getBudgetCategories } from '../lib/budgets';
 import { TrendingDown, TrendingUp, Target, Zap, Sparkles, RefreshCw } from 'lucide-react';
 
-const CATEGORY_COLORS: Record<string, string> = {
-  food: 'bg-amber-500',
-  transport: 'bg-blue-500',
-  entertainment: 'bg-pink-500',
-  education: 'bg-emerald-500',
-  shopping: 'bg-violet-500',
-  health: 'bg-red-500',
-  snacks: 'bg-orange-500',
-  other: 'bg-gray-500',
-};
 
 interface Props {
   profile: StudentProfile;
@@ -76,29 +66,28 @@ export default function Dashboard({ profile, onNavigate }: Props) {
     <div className="space-y-6 pb-20 md:pb-6">
       {/* Header */}
       <div>
-        <h1 className="text-white text-2xl font-bold">Hey{profile.name ? `, ${profile.name}` : ''}! 👋</h1>
-        <p className="text-gray-400 text-sm mt-0.5">Here's your financial snapshot for this month.</p>
+        <h1 className="text-snow text-2xl font-semibold">Hey{profile.name ? `, ${profile.name}` : ''} 👋</h1>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Monthly Income" value={formatMoney(totalIncome, profile.currency)} icon={<TrendingUp size={18} className="text-emerald-400" />} color="emerald" />
-        <StatCard label="Spent This Month" value={formatMoney(totalSpent, profile.currency)} icon={<TrendingDown size={18} className="text-red-400" />} color="red" />
-        <StatCard label="Remaining" value={formatMoney(remaining, profile.currency)} icon={<Zap size={18} className="text-blue-400" />} color={remaining >= 0 ? 'blue' : 'red'} />
-        <StatCard label="Active Goals" value={String(goals.length)} icon={<Target size={18} className="text-amber-400" />} color="amber" />
+        <StatCard label="Monthly Income" value={formatMoney(totalIncome, profile.currency)} icon={<TrendingUp size={18} className="text-emerald-400" />} accent="emerald" />
+        <StatCard label="Spent This Month" value={formatMoney(totalSpent, profile.currency)} icon={<TrendingDown size={18} className="text-rose-400" />} accent="rose" />
+        <StatCard label="Remaining" value={formatMoney(remaining, profile.currency)} icon={<Zap size={18} className="text-sky-400" />} accent="sky" />
+        <StatCard label="Active Goals" value={String(goals.length)} icon={<Target size={18} className="text-glow" />} accent="amber" />
       </div>
 
       <div className="grid md:grid-cols-2 gap-5">
         {/* Spending breakdown */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <div className="bg-deep border border-dusk rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white font-semibold">Spending Breakdown</h2>
-            <span className="text-gray-500 text-xs">{new Date().toLocaleString('default', { month: 'long' })}</span>
+            <h2 className="text-snow font-semibold">Spending Breakdown</h2>
+            <span className="text-mist text-xs">{new Date().toLocaleString('default', { month: 'long' })}</span>
           </div>
           {sortedCategories.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm">No transactions yet</p>
-              <button onClick={() => onNavigate('tracker')} className="mt-3 text-emerald-400 text-sm hover:text-emerald-300 transition-colors">
+              <p className="text-mist text-sm">No transactions yet</p>
+              <button onClick={() => onNavigate('tracker')} className="mt-3 text-snow text-sm hover:text-mist transition-colors">
                 Add your first transaction →
               </button>
             </div>
@@ -107,12 +96,12 @@ export default function Dashboard({ profile, onNavigate }: Props) {
               {sortedCategories.map(([cat, amount]) => (
                 <div key={cat}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-300 capitalize">{cat}</span>
-                    <span className="text-white font-medium">{formatMoney(amount, profile.currency)}</span>
+                    <span className="text-snow capitalize">{cat}</span>
+                    <span className="text-snow font-medium">{formatMoney(amount, profile.currency)}</span>
                   </div>
-                  <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                  <div className="h-2 bg-dusk rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${CATEGORY_COLORS[cat] || 'bg-gray-500'} transition-all duration-500`}
+                      className={`h-full rounded-full bg-glow transition-all duration-500`}
                       style={{ width: `${Math.min((amount / totalSpent) * 100, 100)}%` }}
                     />
                   </div>
@@ -123,12 +112,12 @@ export default function Dashboard({ profile, onNavigate }: Props) {
         </div>
 
         {/* Budget usage */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-          <h2 className="text-white font-semibold mb-4">Budget Usage</h2>
+        <div className="bg-deep border border-dusk rounded-2xl p-5">
+          <h2 className="text-snow font-semibold mb-4">Budget Usage</h2>
           {budgetCategories.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm">No budgets set</p>
-              <button onClick={() => onNavigate('settings')} className="mt-3 text-emerald-400 text-sm hover:text-emerald-300 transition-colors">
+              <p className="text-mist text-sm">No budgets set</p>
+              <button onClick={() => onNavigate('settings')} className="mt-3 text-snow text-sm hover:text-mist transition-colors">
                 Set up budgets →
               </button>
             </div>
@@ -141,14 +130,14 @@ export default function Dashboard({ profile, onNavigate }: Props) {
                 return (
                   <div key={id}>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-300">{name}</span>
-                      <span className={over ? 'text-red-400 font-medium' : 'text-gray-400'}>
+                      <span className="text-snow">{name}</span>
+                      <span className={over ? 'text-rose-400 font-medium' : 'text-mist'}>
                         {formatMoney(spent, profile.currency)} / {formatMoney(budget, profile.currency)}
                       </span>
                     </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-dusk rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-red-500' : pct > 80 ? 'bg-amber-500' : 'bg-emerald-500'}`}
+                        className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-rose-500' : pct > 80 ? 'bg-glow' : 'bg-emerald-400'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -163,40 +152,40 @@ export default function Dashboard({ profile, onNavigate }: Props) {
       {/* Streak + Goals preview */}
       <div className="grid md:grid-cols-2 gap-5">
         {streak && streak.current_streak > 0 && (
-          <div className="bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/20 rounded-2xl p-5">
+          <div className="bg-gradient-to-br from-orange-600/20 to-glow/10 border border-orange-500/20 rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-2">
               <span className="text-3xl">🔥</span>
               <div>
-                <div className="text-white font-bold text-xl">{streak.current_streak} Day Streak!</div>
-                <div className="text-orange-300/70 text-sm">Best: {streak.longest_streak} days</div>
+                <div className="text-snow font-bold text-xl">{streak.current_streak} Day Streak!</div>
+                <div className="text-orange-300/80 text-sm">Best: {streak.longest_streak} days</div>
               </div>
             </div>
-            <p className="text-orange-200/60 text-sm">You've logged spending {streak.total_days_logged} days total. Keep going!</p>
+            <p className="text-orange-100/70 text-sm">You've logged spending {streak.total_days_logged} days total. Keep going!</p>
           </div>
         )}
 
         {goals.length > 0 && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+          <div className="bg-deep border border-dusk rounded-2xl p-5">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-white font-semibold">Top Goal</h2>
+              <h2 className="text-snow font-semibold">Top Goal</h2>
               <button onClick={() => onNavigate('goals')} className="text-emerald-400 text-xs hover:text-emerald-300">View all →</button>
             </div>
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xl">{goals[0].emoji}</span>
-                <span className="text-white font-medium">{goals[0].title}</span>
+                <span className="text-snow font-medium">{goals[0].title}</span>
               </div>
               <div className="flex justify-between text-sm mb-1.5">
-                <span className="text-gray-400">{formatMoney(goals[0].current_amount, profile.currency)} saved</span>
-                <span className="text-gray-400">{formatMoney(goals[0].target_amount, profile.currency)} goal</span>
+                <span className="text-mist">{formatMoney(goals[0].current_amount, profile.currency)} saved</span>
+                <span className="text-mist">{formatMoney(goals[0].target_amount, profile.currency)} goal</span>
               </div>
-              <div className="h-2.5 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-2.5 bg-dusk rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                  className="h-full bg-glow rounded-full transition-all duration-500"
                   style={{ width: `${Math.min((goals[0].current_amount / goals[0].target_amount) * 100, 100)}%` }}
                 />
               </div>
-              <div className="text-right text-xs text-gray-500 mt-1">
+              <div className="text-right text-xs text-mist mt-1">
                 {Math.round((goals[0].current_amount / goals[0].target_amount) * 100)}%
               </div>
             </div>
@@ -205,25 +194,25 @@ export default function Dashboard({ profile, onNavigate }: Props) {
       </div>
 
       {/* AI Insights */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+      <div className="bg-deep border border-dusk rounded-2xl p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Sparkles size={16} className="text-emerald-400" />
-            <h2 className="text-white font-semibold">AI Insights</h2>
+            <Sparkles size={16} className="text-snow" />
+            <h2 className="text-snow font-semibold">AI Insights</h2>
           </div>
           <button
             onClick={fetchInsight}
             disabled={loadingInsight || transactions.length === 0}
-            className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 text-xs font-medium disabled:opacity-40 transition-colors"
+            className="flex items-center gap-1.5 text-snow hover:text-mist text-xs font-medium disabled:opacity-40 transition-colors"
           >
             <RefreshCw size={13} className={loadingInsight ? 'animate-spin' : ''} />
             {loadingInsight ? 'Analyzing...' : 'Analyze'}
           </button>
         </div>
         {aiInsight ? (
-          <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{aiInsight}</p>
+          <p className="text-snow text-sm leading-relaxed whitespace-pre-line">{aiInsight}</p>
         ) : (
-          <p className="text-gray-500 text-sm">
+          <p className="text-mist text-sm">
             {transactions.length === 0
               ? 'Add some transactions first, then click Analyze for personalized AI insights.'
               : 'Click Analyze to get personalized spending insights from your AI coach.'}
@@ -234,17 +223,17 @@ export default function Dashboard({ profile, onNavigate }: Props) {
   );
 }
 
-function StatCard({ label, value, icon, color }: { label: string; value: string; icon: React.ReactNode; color: string }) {
-  const bg: Record<string, string> = {
-    emerald: 'bg-emerald-500/10 border-emerald-500/20',
-    red: 'bg-red-500/10 border-red-500/20',
-    blue: 'bg-blue-500/10 border-blue-500/20',
-    amber: 'bg-amber-500/10 border-amber-500/20',
+function StatCard({ label, value, icon, accent }: { label: string; value: string; icon: React.ReactNode; accent: 'emerald' | 'rose' | 'sky' | 'amber' }) {
+  const accentMap = {
+    emerald: 'border-l-emerald-500 bg-emerald-500/5',
+    rose:    'border-l-rose-500 bg-rose-500/5',
+    sky:     'border-l-sky-500 bg-sky-500/5',
+    amber:   'border-l-glow bg-glow/5',
   };
   return (
-    <div className={`${bg[color]} border rounded-2xl p-4`}>
-      <div className="flex items-center gap-2 mb-2">{icon}<span className="text-gray-400 text-xs">{label}</span></div>
-      <div className="text-white text-xl font-bold">{value}</div>
+    <div className={`bg-deep border border-dusk border-l-2 ${accentMap[accent]} rounded-2xl p-4`}>
+      <div className="flex items-center gap-2 mb-2">{icon}<span className="text-mist text-xs tracking-wide">{label}</span></div>
+      <div className="text-snow text-xl font-semibold">{value}</div>
     </div>
   );
 }

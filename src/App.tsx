@@ -66,12 +66,12 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-ink flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center animate-pulse">
-            <span className="text-white text-xl">💸</span>
+          <div className="w-10 h-10 bg-glow rounded-xl flex items-center justify-center animate-pulse">
+            <span className="text-ink text-xl">💸</span>
           </div>
-          <div className="text-gray-500 text-sm">Loading CentsAble...</div>
+          <div className="text-mist text-sm">Loading PaceMoney...</div>
         </div>
       </div>
     );
