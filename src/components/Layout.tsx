@@ -33,8 +33,7 @@ export default function Layout({ current, onNavigate, children, streakCount = 0,
         <div className="p-5 border-b border-dusk">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-glow rounded-lg flex items-center justify-center">
-              <TrendingUp size={16} className="text-ink" />
-            </div>
+              <img src="src/components/favicon/favicon-96x96.png" alt="CentsAble Logo" className="w-8 h-8 object-contain"/>            </div>
             <span className="text-snow font-semibold text-base tracking-tight">Pace Money</span>
           </div>
         </div>
