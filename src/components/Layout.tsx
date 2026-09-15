@@ -1,7 +1,8 @@
-import { TrendingUp, LayoutDashboard, Receipt, MessageSquare, Target, Settings, LogOut } from 'lucide-react';
+import { TrendingUp, LayoutDashboard, Receipt, MessageSquare, Target, Settings, LogOut, Sun, Moon } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { AppCurrency, normalizeCurrency } from '../lib/currency';
 import CurrencyToggle from './CurrencyToggle';
+import type { Theme } from '../lib/useTheme';
 
 type Page = 'dashboard' | 'tracker' | 'coach' | 'goals' | 'settings';
 
@@ -12,6 +13,8 @@ interface Props {
   streakCount?: number;
   currency?: string;
   onCurrencyChange?: (currency: AppCurrency) => void;
+  theme?: Theme;
+  onThemeToggle?: () => void;
 }
 
 const navItems: { id: Page; icon: typeof LayoutDashboard; label: string }[] = [
@@ -22,11 +25,11 @@ const navItems: { id: Page; icon: typeof LayoutDashboard; label: string }[] = [
   { id: 'settings', icon: Settings, label: 'Settings' },
 ];
 
-export default function Layout({ current, onNavigate, children, streakCount = 0, currency, onCurrencyChange }: Props) {
+export default function Layout({ current, onNavigate, children, streakCount = 0, currency, onCurrencyChange, theme, onThemeToggle }: Props) {
   return (
-    <div className="min-h-screen bg-ink flex">
+    <div className="min-h-screen bg-ink dark:bg-ink flex">
       {/* Sidebar */}
-      <aside className="w-60 bg-deep border-r border-dusk flex flex-col fixed h-full z-10 hidden md:flex">
+      <aside className="w-60 bg-deep dark:bg-deep border-r border-dusk dark:border-dusk flex flex-col fixed h-full z-10 hidden md:flex">
         <div className="p-5 border-b border-dusk">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-glow rounded-lg flex items-center justify-center">
@@ -72,7 +75,16 @@ export default function Layout({ current, onNavigate, children, streakCount = 0,
           ))}
         </nav>
 
-        <div className="p-3 border-t border-dusk">
+        <div className="p-3 border-t border-dusk dark:border-dusk space-y-1">
+          {onThemeToggle && (
+            <button
+              onClick={onThemeToggle}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-mist hover:text-snow hover:bg-dusk transition-all"
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </button>
+          )}
           <button
             onClick={() => supabase.auth.signOut()}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-mist hover:text-snow hover:bg-dusk transition-all"
@@ -86,18 +98,29 @@ export default function Layout({ current, onNavigate, children, streakCount = 0,
       {/* Main content */}
       <main className="flex-1 md:ml-60 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
         {onCurrencyChange && (
-          <div className="md:hidden sticky top-0 z-20 bg-ink/95 backdrop-blur border-b border-dusk px-4 py-2.5 flex items-center justify-between gap-3">
+          <div className="md:hidden sticky top-0 z-20 bg-ink/95 dark:bg-ink/95 backdrop-blur border-b border-dusk px-4 py-2.5 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-glow rounded-md flex items-center justify-center">
                 <TrendingUp size={12} className="text-ink" />
               </div>
               <span className="text-snow font-semibold text-sm truncate">Pace Money</span>
             </div>
-            <CurrencyToggle
-              size="sm"
-              value={normalizeCurrency(currency)}
-              onChange={onCurrencyChange}
-            />
+            <div className="flex items-center gap-2">
+              {onThemeToggle && (
+                <button
+                  onClick={onThemeToggle}
+                  className="p-1.5 rounded-lg text-mist hover:text-snow hover:bg-dusk transition-all"
+                  aria-label="Toggle theme"
+                >
+                  {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                </button>
+              )}
+              <CurrencyToggle
+                size="sm"
+                value={normalizeCurrency(currency)}
+                onChange={onCurrencyChange}
+              />
+            </div>
           </div>
         )}
         <div className="flex-1 p-4 pb-24 md:p-6 md:pb-6 max-w-5xl w-full mx-auto min-w-0">

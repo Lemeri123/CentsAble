@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase, StudentProfile, Streak } from './lib/supabase';
 import { AppCurrency } from './lib/currency';
+import { useTheme } from './lib/useTheme';
 import type { User } from '@supabase/supabase-js';
 import AuthPage from './components/AuthPage';
 import Onboarding from './components/Onboarding';
@@ -19,6 +20,7 @@ export default function App() {
   const [streak, setStreak] = useState<Streak | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<Page>('dashboard');
+  const { theme, toggle: toggleTheme } = useTheme();
 
   useEffect(() => {
     // onAuthStateChange fires immediately with the current session,
@@ -102,6 +104,8 @@ export default function App() {
       streakCount={streak?.current_streak ?? 0}
       currency={profile.currency}
       onCurrencyChange={changeCurrency}
+      theme={theme}
+      onThemeToggle={toggleTheme}
     >
       {renderPage()}
     </Layout>

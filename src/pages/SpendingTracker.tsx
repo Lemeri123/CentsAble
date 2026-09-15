@@ -142,7 +142,7 @@ export default function SpendingTracker({ profile }: Props) {
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-ink px-3 py-2 rounded-xl text-sm font-semibold transition-all"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-glow hover:bg-amber-300 text-ink px-3 py-2 rounded-xl text-sm font-semibold transition-all"
           >
             <Plus size={15} />
             Add
@@ -283,7 +283,7 @@ export default function SpendingTracker({ profile }: Props) {
                   </div>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     {tx.is_unnecessary && <span className="text-xs bg-steel/15 text-mist border border-steel px-1.5 py-0.5 rounded-md">wasteful</span>}
-                    <span className={`text-xs px-1.5 py-0.5 rounded-md border capitalize ${cat?.color || 'bg-steel text-snow border-steel'}`}>{cat?.label || tx.category}</span>
+                    <span className={`text-xs px-1.5 py-0.5 rounded-md border capitalize ${'bg-steel text-snow border-steel'}`}>{cat?.label || tx.category}</span>
                     <span className="text-steel text-xs">{new Date(tx.transaction_date + 'T00:00:00').toLocaleDateString()}</span>
                     <button onClick={() => handleDelete(tx.id)} className="ml-auto text-steel hover:text-snow transition-colors p-1">
                       <Trash2 size={14} />

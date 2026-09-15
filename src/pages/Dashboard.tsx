@@ -137,7 +137,7 @@ export default function Dashboard({ profile, onNavigate }: Props) {
                     </div>
                     <div className="h-2 bg-dusk rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-rose-500' : pct > 80 ? 'bg-glow' : 'bg-emerald-400'}`}
+                        className={`h-full rounded-full transition-all duration-500 ${over ? 'bg-rose-500' : pct > 80 ? 'bg-glow' : 'bg-glow'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>

@@ -60,27 +60,349 @@ export const SPENDING_CATEGORY_STYLES: { id: string; label: string; emoji: strin
 
 // Keyword → emoji map. Checked against category id + name (lowercase).
 const EMOJI_KEYWORDS: [string[], string][] = [
-  [['food', 'meal', 'lunch', 'dinner', 'breakfast', 'eat', 'restaurant', 'groceri', 'grocery'], '🍕'],
-  [['snack', 'bubble', 'tea', 'coffee', 'drink', 'juice', 'boba'], '🧋'],
-  [['transport', 'bus', 'taxi', 'uber', 'bolt', 'boda', 'matatu', 'fuel', 'petrol', 'fare', 'commut', 'ride'], '🚌'],
-  [['entertain', 'movie', 'cinema', 'game', 'fun', 'party', 'club', 'bar', 'concert', 'sport', 'netflix', 'stream'], '🎮'],
-  [['educat', 'school', 'book', 'tuition', 'course', 'class', 'learn', 'studi', 'study', 'exam', 'uni', 'college'], '📚'],
-  [['shop', 'cloth', 'fashion', 'outfit', 'wear', 'shoe', 'bag', 'mall'], '🛍️'],
-  [['health', 'medic', 'hospital', 'pharmacy', 'drug', 'doctor', 'clinic', 'gym', 'fitness', 'wellness'], '💊'],
-  [['rent', 'house', 'home', 'accommodat', 'hostel', 'flat', 'apartment', 'lodge'], '🏠'],
-  [['electric', 'water', 'utility', 'bill', 'power', 'gas', 'internet', 'wifi', 'data', 'airtime', 'airtel', 'mtn', 'safaricom'], '💡'],
-  [['phone', 'mobile', 'device', 'laptop', 'computer', 'tech', 'gadget', 'subscript'], '📱'],
-  [['gift', 'present', 'donat', 'charity', 'tithe', 'church', 'mosque', 'offering'], '🎁'],
-  [['travel', 'trip', 'vacation', 'holiday', 'flight', 'hotel', 'tour'], '✈️'],
-  [['saving', 'invest', 'goal', 'piggy', 'wallet', 'budget'], '💰'],
-  [['personal', 'care', 'beauty', 'hair', 'salon', 'barber', 'cosmetic', 'makeup', 'hygiene'], '💄'],
-  [['family', 'parent', 'sibling', 'kid', 'child', 'baby', 'relative'], '👨‍👩‍👧'],
-  [['pet', 'dog', 'cat', 'animal', 'vet'], '🐾'],
-  [['sport', 'football', 'basketball', 'workout', 'swim', 'run', 'yoga'], '🏋️'],
-  [['music', 'spotify', 'concert', 'instrument', 'audio'], '🎵'],
-  [['stationary', 'pen', 'paper', 'notebook', 'print'], '✏️'],
-];
 
+  // 🍔 FOOD & MEALS
+  [[
+    'food', 'meal', 'lunch', 'dinner', 'breakfast', 'supper',
+    'eat', 'eating', 'restaurant', 'groceri', 'grocery', 'market',
+    'supermarket', 'foodstuff', 'snack', 'pizza', 'burger',
+    'chicken', 'meat', 'beef', 'pork', 'fish', 'rice', 'bread',
+    'fruit', 'vegetable', 'cooking', 'cook', 'kitchen', 'meal prep'
+  ], '🍔'],
+
+  // ☕ DRINKS
+  [[
+    'snack', 'bubble', 'tea', 'coffee', 'drink', 'juice', 'boba',
+    'soda', 'water', 'milk', 'smoothie', 'cafe', 'café',
+    'energy drink', 'beer', 'wine'
+  ], '☕'],
+
+  // 🚌 TRANSPORT
+  [[
+    'transport', 'bus', 'taxi', 'uber', 'bolt', 'boda', 'boda boda',
+    'matatu', 'fuel', 'petrol', 'diesel', 'fare', 'commut',
+    'commute', 'ride', 'travel', 'transportation', 'car',
+    'vehicle', 'motorcycle', 'bike', 'bicycle', 'parking',
+    'parking fee', 'car wash', 'maintenance', 'repair',
+    'mechanic', 'driving', 'driving school'
+  ], '🚌'],
+
+  // 🎮 ENTERTAINMENT
+  [[
+    'entertain', 'movie', 'cinema', 'film', 'game', 'gaming',
+    'fun', 'party', 'club', 'concert', 'sport', 'netflix',
+    'stream', 'streaming', 'youtube', 'tiktok', 'event',
+    'festival', 'hangout', 'outing', 'leisure', 'playstation',
+    'xbox', 'football match', 'bowling', 'karaoke'
+  ], '🎮'],
+
+  // 📚 EDUCATION
+  [[
+    'educat', 'school', 'book', 'tuition', 'course', 'class',
+    'learn', 'studi', 'study', 'exam', 'uni', 'university',
+    'college', 'lecture', 'semester', 'school fees', 'fees',
+    'student', 'assignment', 'research', 'library', 'textbook',
+    'stationery', 'training', 'workshop', 'certification',
+    'online course', 'udemy', 'coursera'
+  ], '📚'],
+
+  // 🛍️ SHOPPING & CLOTHING
+  [[
+    'shop', 'shopping', 'cloth', 'clothing', 'fashion', 'outfit',
+    'wear', 'shoe', 'shoes', 'sneaker', 'sneakers', 'bag',
+    'handbag', 'backpack', 'mall', 'dress', 'shirt', 'trouser',
+    'jeans', 'jacket', 'hoodie', 'jewelry', 'accessor',
+    'accessories', 'watch', 'ring', 'necklace', 'purchase',
+    'buy', 'shopping mall'
+  ], '🛍️'],
+
+  // 💊 HEALTH
+  [[
+    'health', 'medic', 'medicine', 'hospital', 'pharmacy', 'drug',
+    'doctor', 'clinic', 'dentist', 'dental', 'treatment',
+    'sick', 'illness', 'checkup', 'medical', 'healthcare',
+     'wellness', 'therapy',
+    'vitamin', 'supplement', 'insurance'
+  ], '💊'],
+
+  // 🏠 RENT & HOUSING
+  [[
+    'rent', 'house', 'home', 'accommodat', 'hostel', 'flat',
+    'apartment', 'lodge', 'housing', 'room', 'landlord',
+    'bedroom', 'deposit', 'house rent', 'room rent',
+    'moving', 'furniture', 'sofa', 'bed', 'mattress'
+  ], '🏠'],
+
+  // 💡 UTILITIES & BILLS
+  [[
+    'electric', 'electricity', 'water', 'utility', 'utilities',
+    'bill', 'bills', 'power', 'gas', 'internet', 'wifi',
+    'data', 'airtime', 'airtel', 'mtn', 'safaricom',
+    'telecom', 'phone bill', 'water bill', 'electricity bill',
+    'yaka', 'umeme', 'internet bill', 'subscription'
+  ], '💡'],
+
+  // 📱 TECHNOLOGY
+  [[
+    'phone', 'mobile', 'smartphone', 'device', 'laptop',
+    'computer', 'tech', 'technology', 'gadget', 'tablet',
+    'ipad', 'iphone', 'android', 'charger', 'headphone',
+    'earphone', 'keyboard', 'mouse', 'monitor', 'software',
+    'app', 'subscription', 'icloud', 'google', 'storage'
+  ], '📱'],
+
+  // 🎁 GIFTS & DONATIONS
+  [[
+    'gift', 'present', 'donat', 'donation', 'charity', 'tithe',
+    'church', 'mosque', 'offering', 'giving', 'contribution',
+    'fundraiser', 'fundraising', 'birthday gift', 'wedding gift',
+    'support', 'help someone'
+  ], '🎁'],
+
+  // ✈️ TRAVEL
+  [[
+    'travel', 'trip', 'vacation', 'holiday', 'flight', 'airport',
+    'hotel', 'tour', 'tourism', 'booking', 'airbnb', 'visa',
+    'passport', 'adventure', 'journey', 'bus ticket',
+    'flight ticket', 'accommodation'
+  ], '✈️'],
+
+  // 💰 SAVINGS & MONEY
+  [[
+    'saving', 'savings', 'save', 'invest', 'investment', 'goal',
+    'piggy', 'wallet', 'budget', 'money', 'cash', 'wealth',
+    'emergency fund', 'emergency', 'financial', 'finance',
+    'profit', 'income', 'allowance', 'salary', 'wage',
+    'paycheck', 'earnings', 'side income', 'side hustle',
+    'business', 'capital'
+  ], '💰'],
+
+  // 💄 PERSONAL CARE & BEAUTY
+  [[
+    'personal', 'care', 'beauty', 'hair', 'salon', 'barber',
+    'barbershop', 'barber shop', 'cosmetic', 'cosmetics',
+    'makeup', 'hygiene', 'skincare', 'skin care', 'perfume',
+    'fragrance', 'shampoo', 'soap', 'toothpaste', 'toothbrush',
+    'lotion', 'cream', 'nails', 'manicure', 'pedicure',
+    'braids', 'haircut', 'dreadlocks'
+  ], '💄'],
+
+  // 👨‍👩‍👧 FAMILY
+  [[
+    'family', 'parent', 'parents', 'mother', 'mom', 'mum',
+    'father', 'dad', 'sibling', 'brother', 'sister', 'kid',
+    'kids', 'child', 'children', 'baby', 'relative', 'uncle',
+    'aunt', 'cousin', 'grandma', 'grandmother', 'grandpa',
+    'grandfather', 'family support', 'home support'
+  ], '👨‍👩‍👧'],
+
+  // 🐾 PETS & ANIMALS
+  [[
+    'pet', 'dog', 'cat', 'animal', 'vet', 'veterinary',
+    'puppy', 'kitten', 'pet food', 'pet care', 'bird',
+    'fish tank', 'animal care'
+  ], '🐾'],
+
+  // 🏋️ SPORTS & FITNESS
+  [[
+    'sport', 'sports', 'football', 'soccer', 'basketball',
+    'volleyball', 'tennis', 'workout', 'exercise', 'gym',
+    'fitness', 'swim', 'swimming', 'run', 'running', 'yoga',
+    'training', 'athletics', 'cycling', 'boxing', 'match',
+    'tournament'
+  ], '🏋️'],
+
+  // 🎵 MUSIC
+  [[
+    'music', 'spotify', 'concert', 'instrument', 'audio',
+    'song', 'sing', 'singer', 'band', 'artist', 'album',
+    'music subscription', 'apple music', 'soundcloud',
+    'dj', 'guitar', 'piano', 'drums'
+  ], '🎵'],
+
+  // ✏️ STATIONERY & OFFICE
+  [[
+    'stationary', 'stationery', 'pen', 'pencil', 'paper',
+    'notebook', 'print', 'printing', 'photocopy', 'printer',
+    'ink', 'office', 'office supplies', 'file', 'folder',
+    'calculator', 'school supplies'
+  ], '✏️'],
+
+  // 💼 WORK & BUSINESS
+  [[
+    'work', 'job', 'business', 'office', 'salary', 'wage',
+    'employment', 'freelance', 'freelancing', 'client',
+    'project', 'meeting', 'work equipment', 'business expense',
+    'startup', 'company', 'worker', 'professional'
+  ], '💼'],
+
+  // 💳 BANKING & PAYMENTS
+  [[
+    'bank', 'banking', 'account', 'deposit', 'withdraw',
+    'withdrawal', 'transfer', 'payment', 'pay', 'paid',
+    'mpesa', 'mobile money', 'momo', 'mobilemoney',
+    'cashout', 'cash out', 'transaction', 'atm', 'card',
+    'debit card', 'credit card', 'loan', 'debt', 'borrow',
+    'repay', 'repayment'
+  ], '💳'],
+
+  // 🏦 LOANS & DEBT
+  [[
+    'loan', 'loans', 'debt', 'borrow', 'borrowed', 'lender',
+    'lending', 'repay', 'repayment', 'installment', 'interest',
+    'credit', 'owe', 'owed', 'microloan', 'school loan'
+  ], '🏦'],
+
+  // 🛒 HOUSEHOLD
+  [[
+    'household', 'home supplies', 'cleaning', 'detergent',
+    'washing', 'laundry', 'bucket', 'broom', 'tissue',
+    'toilet paper', 'kitchen supplies', 'utensils', 'plate',
+    'cup', 'spoon', 'furniture', 'decoration', 'decor'
+  ], '🛒'],
+
+  // 💇 HAIR & GROOMING
+  [[
+    'grooming', 'haircut', 'barber', 'barbershop', 'hair',
+    'braid', 'braids', 'dread', 'dreadlocks', 'fade',
+    'shave', 'beard', 'beard trim', 'shaving', 'barbering'
+  ], '💇'],
+
+  // 👶 CHILDREN
+  [[
+    'baby', 'babies', 'child', 'children', 'kid', 'kids',
+    'diaper', 'nappies', 'baby food', 'formula', 'toys',
+    'school child', 'daycare', 'nursery'
+  ], '👶'],
+
+  // 💍 WEDDING & EVENTS
+  [[
+    'wedding', 'marriage', 'engagement', 'bride', 'groom',
+    'ceremony', 'event', 'birthday', 'anniversary',
+    'celebration', 'party', 'decoration', 'venue', 'catering'
+  ], '💍'],
+
+  // 🛠️ REPAIRS & MAINTENANCE
+  [[
+    'repair', 'repairs', 'fix', 'maintenance', 'mechanic',
+    'plumber', 'plumbing', 'electrician', 'technician',
+    'phone repair', 'laptop repair', 'car repair',
+    'bike repair', 'appliance', 'replacement', 'spare part'
+  ], '🛠️'],
+
+  // 📦 DELIVERY & SHIPPING
+  [[
+    'delivery', 'deliver', 'shipping', 'package', 'parcel',
+    'courier', 'send', 'sending', 'pickup', 'dispatch',
+    'postage', 'shipping fee'
+  ], '📦'],
+
+  // 🧾 TAXES & GOVERNMENT
+  [[
+    'tax', 'taxes', 'ura', 'government', 'license', 'licence',
+    'permit', 'registration', 'passport', 'visa', 'fine',
+    'fee', 'official fee'
+  ], '🧾'],
+
+  // 🔐 SECURITY
+  [[
+    'security', 'guard', 'security guard', 'alarm', 'lock',
+    'padlock', 'cctv', 'protection', 'safety'
+  ], '🔐'],
+
+  // ❤️ RELATIONSHIPS
+  [[
+    'date', 'dating', 'girlfriend', 'boyfriend', 'partner',
+    'relationship', 'romantic', 'valentine', 'love',
+    'anniversary', 'couple'
+  ], '❤️'],
+
+  // 🌱 FARMING & AGRICULTURE
+  [[
+    'farm', 'farming', 'agriculture', 'agricultural', 'garden',
+    'gardening', 'seed', 'seeds', 'fertilizer', 'fertiliser',
+    'livestock', 'chicken', 'goat', 'cow', 'pig', 'crop',
+    'harvest', 'farmer'
+  ], '🌱'],
+
+  // 📖 RELIGION & SPIRITUALITY
+  [[
+    'church', 'mosque', 'religion', 'prayer', 'pray',
+    'tithe', 'offering', 'donation', 'bible', 'quran',
+    'worship', 'spiritual', 'christian', 'muslim'
+  ], '🙏'],
+
+  // 🎓 CAREER & DEVELOPMENT
+  [[
+    'career', 'internship', 'intern', 'cv', 'resume',
+    'interview', 'job application', 'certificate',
+    'certification', 'professional development', 'conference',
+    'networking', 'mentorship', 'mentor'
+  ], '🎓'],
+
+  // 🧳 MOVING / RELOCATION
+  [[
+    'moving', 'relocation', 'relocate', 'new house',
+    'new home', 'moving house', 'moving costs', 'mover',
+    'moving truck'
+  ], '🧳'],
+
+  // 🌐 ONLINE SERVICES
+  [[
+    'online', 'website', 'domain', 'hosting', 'cloud',
+    'subscription', 'software subscription', 'saas',
+    'digital', 'internet service', 'membership'
+  ], '🌐'],
+
+  // 🎮 GAMING
+  [[
+    'game', 'gaming', 'playstation', 'xbox', 'steam',
+    'nintendo', 'fortnite', 'pubg', 'free fire', 'cod',
+    'call of duty', 'fifa', 'ea fc', 'roblox', 'minecraft',
+    'game pass', 'gaming pc'
+  ], '🎮'],
+
+  // 📸 CONTENT & CREATOR
+  [[
+    'camera', 'photography', 'photo', 'video', 'filming',
+    'content', 'creator', 'youtube', 'tiktok', 'instagram',
+    'editing', 'video editing', 'photoshoot', 'studio',
+    'microphone', 'lighting'
+  ], '📸'],
+
+  // 💸 GENERAL EXPENSE
+  [[
+    'expense', 'expenses', 'spending', 'spent', 'cost',
+    'purchase', 'payment', 'misc', 'miscellaneous', 'other'
+  ], '💸'],
+
+  // 🎯 GOALS
+  [[
+    'goal', 'target', 'milestone', 'dream', 'plan',
+    'saving goal', 'financial goal', 'target amount'
+  ], '🎯'],
+
+  // 🚨 EMERGENCY
+  [[
+    'emergency', 'urgent', 'accident', 'unexpected',
+    'emergency expense', 'emergency fund', 'crisis'
+  ], '🚨'],
+
+  // 💰 INCOME
+  [[
+    'income', 'salary', 'allowance', 'wage', 'earnings',
+    'pay', 'paycheck', 'bonus', 'commission', 'profit',
+    'side hustle', 'freelance income', 'business income',
+    'pocket money', 'stipend', 'scholarship'
+  ], '💵'],
+
+  // 🏆 ACHIEVEMENT
+  [[
+    'achievement', 'reward', 'bonus', 'success', 'win',
+    'prize', 'award', 'milestone', 'accomplishment'
+  ], '🏆'],
+
+];
 export function emojiForCategory(id: string, name: string): string {
   const haystack = `${id} ${name}`.toLowerCase();
   for (const [keywords, emoji] of EMOJI_KEYWORDS) {
