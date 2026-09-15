@@ -142,7 +142,7 @@ export default function SpendingTracker({ profile }: Props) {
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-glow hover:bg-glow/80 text-ink px-3 py-2 rounded-xl text-sm font-semibold transition-all"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-ink px-3 py-2 rounded-xl text-sm font-semibold transition-all"
           >
             <Plus size={15} />
             Add
@@ -210,7 +210,7 @@ export default function SpendingTracker({ profile }: Props) {
                       key={cat.id}
                       type="button"
                       onClick={() => setCategory(cat.id)}
-                      className={`flex flex-col items-center gap-1 py-2 rounded-xl border text-xs font-medium transition-all ${category === cat.id ? cat.color : 'bg-dusk text-mist border-steel hover:border-steel'}`}
+                      className={`flex flex-col items-center gap-1 py-2 rounded-xl border text-xs font-medium transition-all ${category === cat.id ? cat.color : 'bg-dusk text-mist border-steel hover:border-glow'}`}
                     >
                       <span>{cat.emoji}</span>
                       <span>{cat.label}</span>
@@ -230,7 +230,7 @@ export default function SpendingTracker({ profile }: Props) {
               <button
                 type="submit"
                 disabled={saving || !description.trim() || !amount}
-                className="w-full bg-glow hover:bg-glow/80 disabled:opacity-40 text-ink font-semibold py-3 rounded-xl transition-all"
+                className="w-full bg-amber-400 hover:bg-amber-300 disabled:opacity-40 text-ink font-semibold py-3 rounded-xl transition-all"
               >
                 {saving ? 'Saving...' : 'Save Transaction'}
               </button>

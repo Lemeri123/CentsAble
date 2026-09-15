@@ -45,33 +45,59 @@ export function slugifyCategory(name: string, existingIds: string[]): string {
   return `${base}_${i}`;
 }
 
+const CATEGORY_COLOR = 'bg-glow text-snow border-steel';
+
 export const SPENDING_CATEGORY_STYLES: { id: string; label: string; emoji: string; color: string }[] = [
-  { id: 'food', label: 'Food', emoji: '🍕', color: 'bg-dusk text-snow border-steel' },
-  { id: 'transport', label: 'Transport', emoji: '🚌', color: 'bg-deep text-mist border-steel' },
-  { id: 'entertainment', label: 'Entertainment', emoji: '🎮', color: 'bg-steel/40 text-snow border-steel' },
-  { id: 'education', label: 'Education', emoji: '📚', color: 'bg-snow/10 text-snow border-mist' },
-  { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: 'bg-dusk text-mist border-steel' },
-  { id: 'health', label: 'Health', emoji: '💊', color: 'bg-steel/30 text-mist border-steel' },
-  { id: 'snacks', label: 'Snacks', emoji: '🧋', color: 'bg-deep text-snow border-mist' },
-  { id: 'other', label: 'Other', emoji: '📦', color: 'bg-dusk text-mist border-steel' },
+  { id: 'food',          label: 'Food',          emoji: '🍕', color: CATEGORY_COLOR },
+  { id: 'transport',     label: 'Transport',     emoji: '🚌', color: CATEGORY_COLOR },
+  { id: 'entertainment', label: 'Entertainment', emoji: '🎮', color: CATEGORY_COLOR },
+  { id: 'education',     label: 'Education',     emoji: '📚', color: CATEGORY_COLOR },
+  { id: 'shopping',      label: 'Shopping',      emoji: '🛍️', color: CATEGORY_COLOR },
+  { id: 'health',        label: 'Health',        emoji: '💊', color: CATEGORY_COLOR },
+  { id: 'snacks',        label: 'Snacks',        emoji: '🧋', color: CATEGORY_COLOR },
+  { id: 'other',         label: 'Other',         emoji: '📦', color: CATEGORY_COLOR },
 ];
 
-const CUSTOM_STYLES = [
-  { emoji: '🏠', color: 'bg-dusk text-snow border-steel' },
-  { emoji: '💡', color: 'bg-steel/40 text-snow border-steel' },
-  { emoji: '📱', color: 'bg-deep text-mist border-mist' },
-  { emoji: '👕', color: 'bg-snow/10 text-snow border-steel' },
-  { emoji: '🎁', color: 'bg-dusk text-mist border-steel' },
+// Keyword → emoji map. Checked against category id + name (lowercase).
+const EMOJI_KEYWORDS: [string[], string][] = [
+  [['food', 'meal', 'lunch', 'dinner', 'breakfast', 'eat', 'restaurant', 'groceri', 'grocery'], '🍕'],
+  [['snack', 'bubble', 'tea', 'coffee', 'drink', 'juice', 'boba'], '🧋'],
+  [['transport', 'bus', 'taxi', 'uber', 'bolt', 'boda', 'matatu', 'fuel', 'petrol', 'fare', 'commut', 'ride'], '🚌'],
+  [['entertain', 'movie', 'cinema', 'game', 'fun', 'party', 'club', 'bar', 'concert', 'sport', 'netflix', 'stream'], '🎮'],
+  [['educat', 'school', 'book', 'tuition', 'course', 'class', 'learn', 'studi', 'study', 'exam', 'uni', 'college'], '📚'],
+  [['shop', 'cloth', 'fashion', 'outfit', 'wear', 'shoe', 'bag', 'mall'], '🛍️'],
+  [['health', 'medic', 'hospital', 'pharmacy', 'drug', 'doctor', 'clinic', 'gym', 'fitness', 'wellness'], '💊'],
+  [['rent', 'house', 'home', 'accommodat', 'hostel', 'flat', 'apartment', 'lodge'], '🏠'],
+  [['electric', 'water', 'utility', 'bill', 'power', 'gas', 'internet', 'wifi', 'data', 'airtime', 'airtel', 'mtn', 'safaricom'], '💡'],
+  [['phone', 'mobile', 'device', 'laptop', 'computer', 'tech', 'gadget', 'subscript'], '📱'],
+  [['gift', 'present', 'donat', 'charity', 'tithe', 'church', 'mosque', 'offering'], '🎁'],
+  [['travel', 'trip', 'vacation', 'holiday', 'flight', 'hotel', 'tour'], '✈️'],
+  [['saving', 'invest', 'goal', 'piggy', 'wallet', 'budget'], '💰'],
+  [['personal', 'care', 'beauty', 'hair', 'salon', 'barber', 'cosmetic', 'makeup', 'hygiene'], '💄'],
+  [['family', 'parent', 'sibling', 'kid', 'child', 'baby', 'relative'], '👨‍👩‍👧'],
+  [['pet', 'dog', 'cat', 'animal', 'vet'], '🐾'],
+  [['sport', 'football', 'basketball', 'workout', 'swim', 'run', 'yoga'], '🏋️'],
+  [['music', 'spotify', 'concert', 'instrument', 'audio'], '🎵'],
+  [['stationary', 'pen', 'paper', 'notebook', 'print'], '✏️'],
 ];
+
+export function emojiForCategory(id: string, name: string): string {
+  const haystack = `${id} ${name}`.toLowerCase();
+  for (const [keywords, emoji] of EMOJI_KEYWORDS) {
+    if (keywords.some(k => haystack.includes(k))) return emoji;
+  }
+  return '📦'; // fallback
+}
 
 export function getSpendingCategories(profile: StudentProfile) {
   const known = new Set(SPENDING_CATEGORY_STYLES.map(c => c.id));
   const extras = getBudgetCategories(profile)
     .filter(b => !known.has(b.id))
-    .map((b, i) => ({
+    .map(b => ({
       id: b.id,
       label: b.name,
-      ...CUSTOM_STYLES[i % CUSTOM_STYLES.length],
+      emoji: emojiForCategory(b.id, b.name),
+      color: CATEGORY_COLOR,
     }));
   return [...SPENDING_CATEGORY_STYLES, ...extras];
 }
