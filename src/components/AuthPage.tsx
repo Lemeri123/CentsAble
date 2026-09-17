@@ -31,16 +31,16 @@ export default function AuthPage() {
         <div className="text-snow space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-glow rounded-xl flex items-center justify-center">
-              <TrendingUp size={22} className="text-ink" />
+            <img src="src/components/favicon/favicon-96x96.png" alt="CentsAble Logo" className="w-8 h-8 object-contain"/>   
             </div>
             <span className="text-2xl font-semibold tracking-tight">Pace Money</span>
           </div>
           <h1 className="text-4xl font-semibold leading-tight">
-            Your AI Financial<br />
-            <span className="text-glow">Coach</span>
+            Your Personal Financial<br />
+            <span className="text-glow">App</span>
           </h1>
           <p className="text-mist text-lg leading-relaxed">
-            Budget smarter, save faster, and get roasted for buying too many snacks.
+            Budget smarter, save faster, plan expenses and track spending.
           </p>
         </div>
 
