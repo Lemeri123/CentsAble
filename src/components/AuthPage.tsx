@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { TrendingUp, DollarSign, Target, Zap } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '../lib/useTheme';
 
 export default function AuthPage() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
@@ -8,6 +9,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { theme, toggle } = useTheme();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,12 +28,25 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center p-4">
+      {/* Theme Toggle */}
+      <button
+        onClick={toggle}
+        className="fixed top-4 right-4 w-10 h-10 bg-deep border border-dusk rounded-xl flex items-center justify-center hover:bg-dusk transition-colors"
+        aria-label="Toggle theme"
+      >
+        {theme === 'dark' ? (
+          <Sun size={18} className="text-glow" />
+        ) : (
+          <Moon size={18} className="text-snow" />
+        )}
+      </button>
+
       <div className="w-full max-w-4xl grid md:grid-cols-2 gap-8 items-center">
         {/* Left: Branding */}
         <div className="text-snow space-y-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-glow rounded-xl flex items-center justify-center">
-            <img src="src/components/favicon/favicon-96x96.png" alt="CentsAble Logo" className="w-8 h-8 object-contain"/>   
+            <div className="w-25 h-25 rounded-xl flex items-center justify-center">
+            <img src="src/components/favicon/apple-touch-icon-removebg-preview.png" alt="CentsAble Logo" className="w-8 h-8 "/>   
             </div>
             <span className="text-2xl font-semibold tracking-tight">Pace Money</span>
           </div>

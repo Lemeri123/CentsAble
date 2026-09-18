@@ -71,7 +71,7 @@ export default function App() {
       <div className="min-h-screen bg-ink flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 bg-glow rounded-xl flex items-center justify-center animate-pulse">
-            <img src="src/components/favicon/favicon-96x96.png" alt="CentsAble Logo" className="w-8 h-8 object-contain"/>   
+            <img src="src/components/favicon/apple-touch-icon-removebg-preview.png" alt="CentsAble Logo" className="w-8 h-8 object-contain"/>   
           </div>
           <div className="text-mist text-sm">Loading PaceMoney...</div>
         </div>

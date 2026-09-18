@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Pace Money</string>
+    <string name="title_activity_main">Pace Money</string>
+    <string name="package_name">com.lemeri.pacemoney</string>
+    <string name="custom_url_scheme">com.lemeri.pacemoney</string>
+</resources>
