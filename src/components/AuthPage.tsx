@@ -46,7 +46,7 @@ export default function AuthPage() {
         <div className="text-snow space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-25 h-25 rounded-xl flex items-center justify-center">
-            <img src="src/components/favicon/apple-touch-icon-removebg-preview.png" alt="CentsAble Logo" className="w-8 h-8 "/>   
+              <img src="/logo.png" alt="CentsAble Logo" className="w-8 h-8"/>   
             </div>
             <span className="text-2xl font-semibold tracking-tight">Pace Money</span>
           </div>
